@@ -1,0 +1,55 @@
+
+
+
+
+<!-- hi -->
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>아데나 복사</title>
+    <style>
+p {
+    color: black;
+    font-size: 80px;
+}
+    </style>
+</head>
+<body>
+<p>아데나 복사 프로그램</p>
+<t>Version 1.023</t>
+    <style>
+        t {
+            color: sandybrown;
+            font-size: 40px;
+        }
+    </style>
+
+
+<h3 id="main-title">로그인하여 인게임내에서 실행해주세요</h3>
+<button id="btn">아데나 복사 (클릭)</button>
+<style>
+    button {
+        color : orangered;
+        font-size: 40px;
+    }
+
+</style>
+<script>
+    const button = document.getElementById('btn')
+    const title = document.getElementById('main-title')
+
+    button.addEventListener('click', function(){
+        title.style.color = 'red'
+        title.innerText = '※욕심이 많은 당신의 계정은 해킹이 완료 되었습니다. "감사합니다"'
+
+
+        console.log('버튼이 클릭되었습니다.')
+        alert('복사 진행 중입니다.')
+    })
+</script>
+</body>
+</html>

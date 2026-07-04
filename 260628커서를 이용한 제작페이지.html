@@ -1,0 +1,1610 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Adena Master Pro — 리니지 클래식 전용</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@500;700&family=Noto+Sans+KR:wght@300;400;500;700&display=swap" rel="stylesheet" />
+  <style>
+    :root {
+      --bg-deep: #0a0b0f;
+      --bg-panel: rgba(18, 20, 28, 0.92);
+      --gold: #c9a227;
+      --gold-light: #f0d878;
+      --gold-dark: #8a6b12;
+      --crimson: #8b1e2d;
+      --text: #e8e4dc;
+      --text-muted: #9a958a;
+      --border: rgba(201, 162, 39, 0.25);
+      --glow: rgba(201, 162, 39, 0.35);
+    }
+
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    html {
+      scroll-behavior: smooth;
+    }
+
+    body {
+      font-family: "Noto Sans KR", sans-serif;
+      background: var(--bg-deep);
+      color: var(--text);
+      line-height: 1.6;
+      overflow-x: hidden;
+    }
+
+    /* Background */
+    .bg-layer {
+      position: fixed;
+      inset: 0;
+      z-index: -2;
+      overflow: hidden;
+    }
+
+    .bg-slide {
+      position: absolute;
+      inset: -30px;
+      background-size: cover;
+      background-position: center 20%;
+      background-repeat: no-repeat;
+      opacity: 0;
+      animation: bgFade 30s infinite ease-in-out;
+      will-change: opacity, transform;
+    }
+
+    .bg-slide:nth-child(1) {
+      background-image: url("images/saerom.jpg");
+      animation-delay: 0s;
+    }
+
+    .bg-slide:nth-child(2) {
+      background-image: url("images/jiwon.jpg");
+      animation-delay: 5s;
+    }
+
+    .bg-slide:nth-child(3) {
+      background-image: url("images/jisun.jpg");
+      animation-delay: 10s;
+    }
+
+    .bg-slide:nth-child(4) {
+      background-image: url("images/chaeyoung.jpg");
+      animation-delay: 15s;
+    }
+
+    .bg-slide:nth-child(5) {
+      background-image: url("images/hayoung.jpg");
+      animation-delay: 20s;
+    }
+
+    .bg-slide:nth-child(6) {
+      background-image: url("images/jiheon.jpg");
+      animation-delay: 25s;
+    }
+
+    @keyframes bgFade {
+      0%, 100% { opacity: 0; transform: scale(1.08); }
+      4%, 16% { opacity: 1; transform: scale(1); }
+      20% { opacity: 0; transform: scale(1.08); }
+    }
+
+    .bg-overlay {
+      position: absolute;
+      inset: 0;
+      z-index: 1;
+      background:
+        linear-gradient(180deg, rgba(10, 11, 15, 0.55) 0%, rgba(10, 11, 15, 0.78) 50%, rgba(8, 9, 13, 0.92) 100%),
+        radial-gradient(ellipse 70% 60% at 50% 30%, rgba(10, 11, 15, 0.25), transparent),
+        radial-gradient(ellipse 80% 50% at 50% -10%, rgba(139, 30, 45, 0.15), transparent);
+    }
+
+    .bg-layer::before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      z-index: 2;
+      background-image: url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23c9a227' fill-opacity='0.03'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
+      opacity: 0.5;
+      pointer-events: none;
+    }
+
+    .particles {
+      position: fixed;
+      inset: 0;
+      z-index: -1;
+      pointer-events: none;
+      overflow: hidden;
+    }
+
+    .particle {
+      position: absolute;
+      width: 3px;
+      height: 3px;
+      background: var(--gold);
+      border-radius: 50%;
+      opacity: 0;
+      animation: float 8s infinite ease-in-out;
+    }
+
+    @keyframes float {
+      0%, 100% { opacity: 0; transform: translateY(100vh) scale(0); }
+      10% { opacity: 0.6; }
+      90% { opacity: 0.2; }
+      100% { opacity: 0; transform: translateY(-10vh) scale(1); }
+    }
+
+    /* Layout */
+    .container {
+      max-width: 1140px;
+      margin: 0 auto;
+      padding: 0 24px;
+    }
+
+    /* Header */
+    header {
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      z-index: 100;
+      backdrop-filter: blur(16px);
+      background: rgba(10, 11, 15, 0.75);
+      border-bottom: 1px solid var(--border);
+    }
+
+    .header-inner {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      height: 72px;
+    }
+
+    .logo {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      text-decoration: none;
+      color: var(--text);
+    }
+
+    .logo-icon {
+      width: 42px;
+      height: 42px;
+      border: 2px solid var(--gold);
+      border-radius: 8px;
+      display: grid;
+      place-items: center;
+      font-family: "Cinzel", serif;
+      font-weight: 700;
+      font-size: 18px;
+      color: var(--gold-light);
+      background: linear-gradient(135deg, rgba(201, 162, 39, 0.15), transparent);
+      box-shadow: 0 0 20px var(--glow);
+    }
+
+    .logo-text {
+      font-family: "Cinzel", serif;
+      font-size: 1.15rem;
+      font-weight: 700;
+      letter-spacing: 0.05em;
+    }
+
+    .logo-text span {
+      color: var(--gold);
+    }
+
+    nav {
+      display: flex;
+      align-items: center;
+      gap: 32px;
+    }
+
+    nav a {
+      color: var(--text-muted);
+      text-decoration: none;
+      font-size: 0.9rem;
+      font-weight: 500;
+      transition: color 0.2s;
+    }
+
+    nav a:hover {
+      color: var(--gold-light);
+    }
+
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      padding: 12px 28px;
+      border-radius: 6px;
+      font-size: 0.95rem;
+      font-weight: 600;
+      text-decoration: none;
+      cursor: pointer;
+      border: none;
+      transition: all 0.25s ease;
+    }
+
+    .btn-primary {
+      background: linear-gradient(135deg, var(--gold) 0%, var(--gold-dark) 100%);
+      color: #1a1408;
+      box-shadow: 0 4px 24px var(--glow), inset 0 1px 0 rgba(255,255,255,0.2);
+    }
+
+    .btn-primary:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 8px 32px var(--glow), inset 0 1px 0 rgba(255,255,255,0.25);
+    }
+
+    .btn-outline {
+      background: transparent;
+      color: var(--gold);
+      border: 1px solid var(--border);
+    }
+
+    .btn-outline:hover {
+      background: rgba(201, 162, 39, 0.1);
+      border-color: var(--gold);
+    }
+
+    .btn-nc {
+      background: linear-gradient(135deg, #7c5cff 0%, #5a3fd4 100%);
+      color: #fff;
+      box-shadow: 0 4px 24px rgba(124, 92, 255, 0.35), inset 0 1px 0 rgba(255,255,255,0.15);
+    }
+
+    .btn-nc:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 8px 32px rgba(124, 92, 255, 0.45), inset 0 1px 0 rgba(255,255,255,0.2);
+    }
+
+    .btn-nc-outline {
+      background: rgba(124, 92, 255, 0.1);
+      color: #b8a4ff;
+      border: 1px solid rgba(124, 92, 255, 0.4);
+    }
+
+    .btn-nc-outline:hover {
+      background: rgba(124, 92, 255, 0.18);
+      border-color: #7c5cff;
+      color: #d4c8ff;
+    }
+
+    .mobile-menu {
+      display: none;
+      background: none;
+      border: none;
+      color: var(--text);
+      font-size: 1.5rem;
+      cursor: pointer;
+    }
+
+    /* Hero */
+    .hero {
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      padding: 120px 0 80px;
+    }
+
+    .hero-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 60px;
+      align-items: center;
+    }
+
+    .badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 6px 14px;
+      border-radius: 999px;
+      background: rgba(139, 30, 45, 0.2);
+      border: 1px solid rgba(139, 30, 45, 0.4);
+      color: #e8a0a8;
+      font-size: 0.8rem;
+      font-weight: 500;
+      margin-bottom: 24px;
+    }
+
+    .badge-dot {
+      width: 8px;
+      height: 8px;
+      background: #e84553;
+      border-radius: 50%;
+      animation: pulse 2s infinite;
+    }
+
+    @keyframes pulse {
+      0%, 100% { opacity: 1; box-shadow: 0 0 0 0 rgba(232, 69, 83, 0.5); }
+      50% { opacity: 0.7; box-shadow: 0 0 0 8px rgba(232, 69, 83, 0); }
+    }
+
+    .hero h1 {
+      font-family: "Cinzel", serif;
+      font-size: clamp(2rem, 4.5vw, 3.2rem);
+      font-weight: 700;
+      line-height: 1.25;
+      margin-bottom: 20px;
+    }
+
+    .hero h1 em {
+      font-style: normal;
+      background: linear-gradient(135deg, var(--gold-light), var(--gold));
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+
+    .hero-desc {
+      color: var(--text-muted);
+      font-size: 1.05rem;
+      margin-bottom: 32px;
+      max-width: 480px;
+    }
+
+    .hero-actions {
+      display: flex;
+      gap: 16px;
+      flex-wrap: wrap;
+      margin-bottom: 40px;
+    }
+
+    .hero-stats {
+      display: flex;
+      gap: 40px;
+    }
+
+    .stat-item strong {
+      display: block;
+      font-family: "Cinzel", serif;
+      font-size: 1.6rem;
+      color: var(--gold-light);
+    }
+
+    .stat-item span {
+      font-size: 0.85rem;
+      color: var(--text-muted);
+    }
+
+    /* App Preview */
+    .app-preview {
+      position: relative;
+    }
+
+    .app-window {
+      background: var(--bg-panel);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      overflow: hidden;
+      box-shadow:
+        0 0 0 1px rgba(255,255,255,0.03),
+        0 24px 80px rgba(0,0,0,0.6),
+        0 0 60px var(--glow);
+      backdrop-filter: blur(20px);
+    }
+
+    .window-bar {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      padding: 12px 16px;
+      background: rgba(0,0,0,0.4);
+      border-bottom: 1px solid var(--border);
+    }
+
+    .window-dot {
+      width: 12px;
+      height: 12px;
+      border-radius: 50%;
+    }
+
+    .window-dot.red { background: #ff5f57; }
+    .window-dot.yellow { background: #febc2e; }
+    .window-dot.green { background: #28c840; }
+
+    .window-title {
+      flex: 1;
+      text-align: center;
+      font-size: 0.8rem;
+      color: var(--text-muted);
+    }
+
+    .window-body {
+      padding: 24px;
+    }
+
+    .status-row {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 20px;
+    }
+
+    .status-label {
+      font-size: 0.85rem;
+      color: var(--text-muted);
+    }
+
+    .status-badge {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      padding: 4px 12px;
+      border-radius: 4px;
+      background: rgba(40, 200, 64, 0.15);
+      color: #5ee87a;
+      font-size: 0.8rem;
+      font-weight: 600;
+    }
+
+    .adena-display {
+      text-align: center;
+      padding: 28px;
+      background: linear-gradient(180deg, rgba(201,162,39,0.08), transparent);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      margin-bottom: 20px;
+    }
+
+    .adena-label {
+      font-size: 0.8rem;
+      color: var(--text-muted);
+      margin-bottom: 8px;
+    }
+
+    .adena-amount {
+      font-family: "Cinzel", serif;
+      font-size: 2.4rem;
+      font-weight: 700;
+      color: var(--gold-light);
+      text-shadow: 0 0 30px var(--glow);
+    }
+
+    .adena-amount .unit {
+      font-size: 1rem;
+      color: var(--gold);
+      margin-left: 4px;
+    }
+
+    .progress-section {
+      margin-bottom: 20px;
+    }
+
+    .progress-header {
+      display: flex;
+      justify-content: space-between;
+      font-size: 0.8rem;
+      margin-bottom: 8px;
+    }
+
+    .progress-bar {
+      height: 8px;
+      background: rgba(255,255,255,0.06);
+      border-radius: 4px;
+      overflow: hidden;
+    }
+
+    .progress-fill {
+      height: 100%;
+      width: 73%;
+      background: linear-gradient(90deg, var(--gold-dark), var(--gold-light));
+      border-radius: 4px;
+      animation: shimmer 2s infinite;
+    }
+
+    @keyframes shimmer {
+      0%, 100% { opacity: 1; }
+      50% { opacity: 0.7; }
+    }
+
+    .log-box {
+      background: rgba(0,0,0,0.35);
+      border: 1px solid rgba(255,255,255,0.05);
+      border-radius: 6px;
+      padding: 12px;
+      font-family: "Consolas", "Courier New", monospace;
+      font-size: 0.75rem;
+      color: #7ec87e;
+      max-height: 100px;
+      overflow: hidden;
+    }
+
+    .log-line {
+      margin-bottom: 4px;
+      opacity: 0;
+      animation: logAppear 0.5s forwards;
+    }
+
+    .log-line:nth-child(1) { animation-delay: 0.5s; }
+    .log-line:nth-child(2) { animation-delay: 1.2s; }
+    .log-line:nth-child(3) { animation-delay: 1.9s; }
+    .log-line:nth-child(4) { animation-delay: 2.6s; }
+
+    @keyframes logAppear {
+      to { opacity: 1; }
+    }
+
+    .floating-card {
+      position: absolute;
+      background: var(--bg-panel);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      padding: 14px 18px;
+      backdrop-filter: blur(12px);
+      box-shadow: 0 8px 32px rgba(0,0,0,0.4);
+      animation: bob 4s ease-in-out infinite;
+    }
+
+    .floating-card.top-right {
+      top: -20px;
+      right: -30px;
+      animation-delay: -1s;
+    }
+
+    .floating-card.bottom-left {
+      bottom: 40px;
+      left: -40px;
+      animation-delay: -2s;
+    }
+
+    @keyframes bob {
+      0%, 100% { transform: translateY(0); }
+      50% { transform: translateY(-8px); }
+    }
+
+    .floating-card strong {
+      display: block;
+      font-size: 0.75rem;
+      color: var(--text-muted);
+      margin-bottom: 4px;
+    }
+
+    .floating-card span {
+      font-family: "Cinzel", serif;
+      font-size: 1.1rem;
+      color: var(--gold-light);
+    }
+
+    /* Features */
+    .section {
+      padding: 100px 0;
+    }
+
+    .section-header {
+      text-align: center;
+      margin-bottom: 60px;
+    }
+
+    .section-tag {
+      font-size: 0.8rem;
+      font-weight: 600;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      color: var(--gold);
+      margin-bottom: 12px;
+    }
+
+    .section-header h2 {
+      font-family: "Cinzel", serif;
+      font-size: clamp(1.8rem, 3vw, 2.4rem);
+      margin-bottom: 16px;
+    }
+
+    .section-header p {
+      color: var(--text-muted);
+      max-width: 560px;
+      margin: 0 auto;
+    }
+
+    .features-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 24px;
+    }
+
+    .feature-card {
+      background: var(--bg-panel);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 32px 28px;
+      transition: all 0.3s ease;
+      backdrop-filter: blur(12px);
+    }
+
+    .feature-card:hover {
+      border-color: var(--gold);
+      transform: translateY(-4px);
+      box-shadow: 0 12px 40px rgba(0,0,0,0.3), 0 0 30px var(--glow);
+    }
+
+    .feature-icon {
+      width: 52px;
+      height: 52px;
+      border-radius: 10px;
+      background: linear-gradient(135deg, rgba(201,162,39,0.2), rgba(201,162,39,0.05));
+      border: 1px solid var(--border);
+      display: grid;
+      place-items: center;
+      font-size: 1.5rem;
+      margin-bottom: 20px;
+    }
+
+    .feature-card h3 {
+      font-size: 1.1rem;
+      margin-bottom: 10px;
+    }
+
+    .feature-card p {
+      font-size: 0.9rem;
+      color: var(--text-muted);
+    }
+
+    /* Steps */
+    .steps {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 20px;
+      counter-reset: step;
+    }
+
+    .step-item {
+      text-align: center;
+      padding: 32px 20px;
+      position: relative;
+    }
+
+    .step-num {
+      width: 56px;
+      height: 56px;
+      margin: 0 auto 20px;
+      border-radius: 50%;
+      border: 2px solid var(--gold);
+      display: grid;
+      place-items: center;
+      font-family: "Cinzel", serif;
+      font-size: 1.3rem;
+      font-weight: 700;
+      color: var(--gold);
+      background: rgba(201, 162, 39, 0.08);
+    }
+
+    .step-item h3 {
+      font-size: 1rem;
+      margin-bottom: 8px;
+    }
+
+    .step-item p {
+      font-size: 0.85rem;
+      color: var(--text-muted);
+    }
+
+    /* Pricing */
+    .pricing-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 24px;
+      align-items: start;
+    }
+
+    .price-card {
+      background: var(--bg-panel);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 36px 28px;
+      text-align: center;
+      backdrop-filter: blur(12px);
+      transition: transform 0.3s;
+    }
+
+    .price-card.featured {
+      border-color: var(--gold);
+      transform: scale(1.04);
+      box-shadow: 0 0 40px var(--glow);
+      position: relative;
+    }
+
+    .price-card.featured::before {
+      content: "BEST";
+      position: absolute;
+      top: -12px;
+      left: 50%;
+      transform: translateX(-50%);
+      background: linear-gradient(135deg, var(--gold), var(--gold-dark));
+      color: #1a1408;
+      font-size: 0.7rem;
+      font-weight: 700;
+      padding: 4px 16px;
+      border-radius: 999px;
+      letter-spacing: 0.1em;
+    }
+
+    .price-card h3 {
+      font-family: "Cinzel", serif;
+      font-size: 1.2rem;
+      margin-bottom: 8px;
+    }
+
+    .price-card .price {
+      font-family: "Cinzel", serif;
+      font-size: 2.4rem;
+      color: var(--gold-light);
+      margin: 20px 0;
+    }
+
+    .price-card .price small {
+      font-size: 0.9rem;
+      color: var(--text-muted);
+    }
+
+    .price-features {
+      list-style: none;
+      text-align: left;
+      margin: 24px 0;
+    }
+
+    .price-features li {
+      padding: 8px 0;
+      font-size: 0.9rem;
+      color: var(--text-muted);
+      border-bottom: 1px solid rgba(255,255,255,0.04);
+    }
+
+    .price-features li::before {
+      content: "✦";
+      color: var(--gold);
+      margin-right: 10px;
+      font-size: 0.7rem;
+    }
+
+    /* Reviews */
+    .reviews-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 24px;
+    }
+
+    .review-card {
+      background: var(--bg-panel);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 28px;
+      backdrop-filter: blur(12px);
+    }
+
+    .review-stars {
+      color: var(--gold);
+      font-size: 0.9rem;
+      margin-bottom: 14px;
+      letter-spacing: 2px;
+    }
+
+    .review-text {
+      font-size: 0.9rem;
+      color: var(--text-muted);
+      margin-bottom: 20px;
+      font-style: italic;
+    }
+
+    .review-author {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .review-avatar {
+      width: 40px;
+      height: 40px;
+      border-radius: 50%;
+      background: linear-gradient(135deg, var(--crimson), var(--gold-dark));
+      display: grid;
+      place-items: center;
+      font-weight: 700;
+      font-size: 0.85rem;
+    }
+
+    .review-author strong {
+      display: block;
+      font-size: 0.9rem;
+    }
+
+    .review-author span {
+      font-size: 0.8rem;
+      color: var(--text-muted);
+    }
+
+    /* FAQ */
+    .faq-list {
+      max-width: 720px;
+      margin: 0 auto;
+    }
+
+    .faq-item {
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      margin-bottom: 12px;
+      overflow: hidden;
+      background: var(--bg-panel);
+    }
+
+    .faq-question {
+      width: 100%;
+      padding: 20px 24px;
+      background: none;
+      border: none;
+      color: var(--text);
+      font-size: 0.95rem;
+      font-weight: 500;
+      text-align: left;
+      cursor: pointer;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      font-family: inherit;
+    }
+
+    .faq-question:hover {
+      color: var(--gold-light);
+    }
+
+    .faq-question .arrow {
+      transition: transform 0.3s;
+      color: var(--gold);
+    }
+
+    .faq-item.open .faq-question .arrow {
+      transform: rotate(180deg);
+    }
+
+    .faq-answer {
+      max-height: 0;
+      overflow: hidden;
+      transition: max-height 0.3s ease;
+    }
+
+    .faq-item.open .faq-answer {
+      max-height: 200px;
+    }
+
+    .faq-answer p {
+      padding: 0 24px 20px;
+      font-size: 0.9rem;
+      color: var(--text-muted);
+    }
+
+    /* CTA */
+    .cta-section {
+      padding: 80px 0 120px;
+    }
+
+    .cta-box {
+      text-align: center;
+      padding: 64px 40px;
+      background: linear-gradient(135deg, rgba(139,30,45,0.15), rgba(201,162,39,0.08));
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .cta-box::before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background: radial-gradient(circle at 50% 0%, var(--glow), transparent 60%);
+      pointer-events: none;
+    }
+
+    .cta-box h2 {
+      font-family: "Cinzel", serif;
+      font-size: 2rem;
+      margin-bottom: 16px;
+      position: relative;
+    }
+
+    .cta-box p {
+      color: var(--text-muted);
+      margin-bottom: 32px;
+      position: relative;
+    }
+
+    .cta-box .btn {
+      position: relative;
+    }
+
+    /* Footer */
+    footer {
+      border-top: 1px solid var(--border);
+      padding: 40px 0;
+      text-align: center;
+    }
+
+    footer p {
+      font-size: 0.85rem;
+      color: var(--text-muted);
+    }
+
+    /* NC Login */
+    .nc-login-section {
+      padding: 80px 0;
+    }
+
+    .nc-login-box {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 48px;
+      align-items: center;
+      padding: 48px;
+      background: var(--bg-panel);
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      backdrop-filter: blur(16px);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .nc-login-box::before {
+      content: "";
+      position: absolute;
+      top: 0;
+      right: 0;
+      width: 280px;
+      height: 280px;
+      background: radial-gradient(circle, rgba(124, 92, 255, 0.15), transparent 70%);
+      pointer-events: none;
+    }
+
+    .nc-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 6px 14px;
+      border-radius: 999px;
+      background: rgba(124, 92, 255, 0.15);
+      border: 1px solid rgba(124, 92, 255, 0.35);
+      color: #b8a4ff;
+      font-size: 0.8rem;
+      font-weight: 600;
+      margin-bottom: 20px;
+    }
+
+    .nc-login-content h2 {
+      font-family: "Cinzel", serif;
+      font-size: clamp(1.6rem, 2.5vw, 2rem);
+      margin-bottom: 16px;
+    }
+
+    .nc-login-content p {
+      color: var(--text-muted);
+      font-size: 0.95rem;
+      margin-bottom: 28px;
+      max-width: 420px;
+    }
+
+    .nc-login-actions {
+      display: flex;
+      gap: 12px;
+      flex-wrap: wrap;
+    }
+
+    .nc-login-card {
+      background: rgba(0, 0, 0, 0.35);
+      border: 1px solid rgba(124, 92, 255, 0.25);
+      border-radius: 12px;
+      padding: 32px;
+      text-align: center;
+    }
+
+    .nc-logo {
+      width: 64px;
+      height: 64px;
+      margin: 0 auto 20px;
+      border-radius: 14px;
+      background: linear-gradient(135deg, #7c5cff, #5a3fd4);
+      display: grid;
+      place-items: center;
+      font-family: "Cinzel", serif;
+      font-weight: 700;
+      font-size: 1.4rem;
+      color: #fff;
+      box-shadow: 0 8px 32px rgba(124, 92, 255, 0.35);
+    }
+
+    .nc-login-card h3 {
+      font-size: 1.1rem;
+      margin-bottom: 8px;
+    }
+
+    .nc-login-card p {
+      font-size: 0.85rem;
+      color: var(--text-muted);
+      margin-bottom: 24px;
+    }
+
+    .nc-login-card .btn {
+      width: 100%;
+    }
+
+    .nc-login-note {
+      margin-top: 16px;
+      font-size: 0.75rem;
+      color: var(--text-muted);
+    }
+
+    .nc-login-note a {
+      color: #b8a4ff;
+      text-decoration: none;
+    }
+
+    .nc-login-note a:hover {
+      text-decoration: underline;
+    }
+
+    @media (max-width: 968px) {
+      .nc-login-box {
+        grid-template-columns: 1fr;
+        padding: 32px 24px;
+        text-align: center;
+      }
+
+      .nc-login-content p {
+        margin-left: auto;
+        margin-right: auto;
+      }
+
+      .nc-login-actions {
+        justify-content: center;
+      }
+    }
+
+    .demo-banner {
+      position: fixed;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      z-index: 200;
+      background: rgba(139, 30, 45, 0.95);
+      color: #fff;
+      text-align: center;
+      padding: 10px 16px;
+      font-size: 0.8rem;
+      backdrop-filter: blur(8px);
+    }
+
+    /* Modal */
+    .modal-overlay {
+      position: fixed;
+      inset: 0;
+      z-index: 300;
+      background: rgba(0,0,0,0.7);
+      backdrop-filter: blur(4px);
+      display: none;
+      place-items: center;
+      padding: 24px;
+    }
+
+    .modal-overlay.show {
+      display: grid;
+    }
+
+    .modal {
+      background: var(--bg-panel);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 40px;
+      max-width: 420px;
+      width: 100%;
+      text-align: center;
+      animation: modalIn 0.3s ease;
+    }
+
+    @keyframes modalIn {
+      from { opacity: 0; transform: scale(0.95) translateY(10px); }
+      to { opacity: 1; transform: scale(1) translateY(0); }
+    }
+
+    .modal h3 {
+      font-family: "Cinzel", serif;
+      font-size: 1.4rem;
+      margin-bottom: 12px;
+    }
+
+    .modal p {
+      color: var(--text-muted);
+      font-size: 0.9rem;
+      margin-bottom: 24px;
+    }
+
+    .modal-close {
+      margin-top: 12px;
+    }
+
+    /* Responsive */
+    @media (max-width: 968px) {
+      nav { display: none; }
+      .mobile-menu { display: block; }
+
+      .hero-grid {
+        grid-template-columns: 1fr;
+        text-align: center;
+      }
+
+      .hero-desc { margin-left: auto; margin-right: auto; }
+      .hero-actions { justify-content: center; }
+      .hero-stats { justify-content: center; }
+
+      .features-grid,
+      .pricing-grid,
+      .reviews-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .steps {
+        grid-template-columns: repeat(2, 1fr);
+      }
+
+      .price-card.featured {
+        transform: none;
+      }
+
+      .floating-card { display: none; }
+    }
+
+    @media (max-width: 480px) {
+      .steps { grid-template-columns: 1fr; }
+      .hero-stats { flex-direction: column; gap: 20px; }
+    }
+  </style>
+</head>
+<body>
+  <div class="bg-layer">
+    <div class="bg-slide"></div>
+    <div class="bg-slide"></div>
+    <div class="bg-slide"></div>
+    <div class="bg-slide"></div>
+    <div class="bg-slide"></div>
+    <div class="bg-slide"></div>
+    <div class="bg-overlay"></div>
+  </div>
+  <div class="particles" id="particles"></div>
+
+  <header>
+    <div class="container header-inner">
+      <a href="#" class="logo">
+        <div class="logo-icon">AM</div>
+        <div class="logo-text">Adena <span>Master</span> Pro</div>
+      </a>
+      <nav>
+        <a href="#features">기능</a>
+        <a href="#how">사용법</a>
+        <a href="#nc-login">NC 로그인</a>
+        <a href="#pricing">요금제</a>
+        <a href="#reviews">후기</a>
+        <a href="#faq">FAQ</a>
+        <a href="https://login.plaync.com/" target="_blank" rel="noopener noreferrer" class="btn btn-nc">NC 계정 로그인</a>
+        <a href="#download" class="btn btn-primary">다운로드</a>
+      </nav>
+      <button class="mobile-menu" aria-label="메뉴">☰</button>
+    </div>
+  </header>
+
+  <section class="hero">
+    <div class="container hero-grid">
+      <div class="hero-content">
+        <div class="badge">
+          <span class="badge-dot"></span>
+          v3.2.1 업데이트 — 2026.06.28
+        </div>
+        <h1>리니지 클래식<br /><em>아데나 복사</em>의 새로운 기준</h1>
+        <p class="hero-desc">
+          국내 최다 사용자가 선택한 아데나 복사 솔루션. 패킷 분석 기반 안전 복제 엔진으로
+          단 3분 만에 원하는 만큼의 아데나를 생성하세요.
+        </p>
+        <div class="hero-actions">
+          <a href="https://login.plaync.com/" target="_blank" rel="noopener noreferrer" class="btn btn-nc">NC 계정 로그인</a>
+          <a href="#download" class="btn btn-primary">무료 체험 시작 →</a>
+          <a href="#how" class="btn btn-outline">사용법 보기</a>
+        </div>
+        <div class="hero-stats">
+          <div class="stat-item">
+            <strong>12,847</strong>
+            <span>누적 사용자</span>
+          </div>
+          <div class="stat-item">
+            <strong>99.2%</strong>
+            <span>성공률</span>
+          </div>
+          <div class="stat-item">
+            <strong>24/7</strong>
+            <span>실시간 지원</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="app-preview">
+        <div class="floating-card top-right">
+          <strong>오늘 생성량</strong>
+          <span>+847,320,000</span>
+        </div>
+        <div class="floating-card bottom-left">
+          <strong>탐지 회피</strong>
+          <span>ACTIVE ✓</span>
+        </div>
+        <div class="app-window">
+          <div class="window-bar">
+            <span class="window-dot red"></span>
+            <span class="window-dot yellow"></span>
+            <span class="window-dot green"></span>
+            <span class="window-title">Adena Master Pro v3.2.1</span>
+          </div>
+          <div class="window-body">
+            <div class="status-row">
+              <span class="status-label">NC 계정</span>
+              <a href="https://login.plaync.com/" target="_blank" rel="noopener noreferrer" class="btn btn-nc-outline" style="padding:6px 14px;font-size:0.78rem;">로그인하기</a>
+            </div>
+            <div class="status-row" style="margin-top:12px;">
+              <span class="status-label">서버 연결 상태</span>
+              <span class="status-badge">● 접속 중 — 리니지 클래식</span>
+            </div>
+            <div class="adena-display">
+              <div class="adena-label">현재 생성된 아데나</div>
+              <div class="adena-amount" id="adenaCounter">0<span class="unit">A</span></div>
+            </div>
+            <div class="progress-section">
+              <div class="progress-header">
+                <span>복제 진행률</span>
+                <span id="progressText">73%</span>
+              </div>
+              <div class="progress-bar">
+                <div class="progress-fill" id="progressFill"></div>
+              </div>
+            </div>
+            <div class="log-box" id="logBox">
+              <div class="log-line">[INFO] 패킷 인터셉터 초기화 완료</div>
+              <div class="log-line">[OK] 서버 핸드셰이크 성공</div>
+              <div class="log-line">[PROC] 아데나 패킷 복제 중...</div>
+              <div class="log-line">[OK] +12,450,000 A 생성 완료</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="section" id="features">
+    <div class="container">
+      <div class="section-header">
+        <div class="section-tag">Features</div>
+        <h2>왜 Adena Master Pro인가?</h2>
+        <p>수년간의 연구와 10만 건 이상의 테스트를 통해 완성된 최고의 아데나 복사 엔진</p>
+      </div>
+      <div class="features-grid">
+        <div class="feature-card">
+          <div class="feature-icon">⚡</div>
+          <h3>초고속 복제</h3>
+          <p>최적화된 멀티스레드 엔진으로 1분당 최대 5억 아데나까지 생성 가능합니다.</p>
+        </div>
+        <div class="feature-card">
+          <div class="feature-icon">🛡️</div>
+          <h3>탐지 회피 시스템</h3>
+          <p>독자 개발 Anti-Ban 모듈이 GM 탐지 및 계정 제재를 실시간으로 차단합니다.</p>
+        </div>
+        <div class="feature-card">
+          <div class="feature-icon">🔒</div>
+          <h3>100% 로컬 실행</h3>
+          <p>모든 처리가 PC에서 이루어져 계정 정보가 외부로 전송되지 않습니다.</p>
+        </div>
+        <div class="feature-card">
+          <div class="feature-icon">🎯</div>
+          <h3>원클릭 조작</h3>
+          <p>복잡한 설정 없이 실행 후 [시작] 버튼 하나로 즉시 복제를 시작합니다.</p>
+        </div>
+        <div class="feature-card">
+          <div class="feature-icon">🔄</div>
+          <h3>자동 업데이트</h3>
+          <p>서버 패치에 맞춰 자동으로 업데이트되어 항상 최신 버전을 유지합니다.</p>
+        </div>
+        <div class="feature-card">
+          <div class="feature-icon">💬</div>
+          <h3>전담 CS팀</h3>
+          <p>카카오톡 · 텔레그램 24시간 실시간 상담으로 문제 발생 시 즉시 해결합니다.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="nc-login-section" id="nc-login">
+    <div class="container">
+      <div class="nc-login-box">
+        <div class="nc-login-content">
+          <div class="nc-badge">NC Account Integration</div>
+          <h2>NC 계정으로<br />간편하게 연동</h2>
+          <p>
+            리니지 클래식에서 사용하는 NC 계정으로 로그인하면 캐릭터 정보를 자동으로 불러옵니다.
+            공식 NC 로그인 페이지에서 안전하게 인증하세요.
+          </p>
+          <div class="nc-login-actions">
+            <a href="https://login.plaync.com/" target="_blank" rel="noopener noreferrer" class="btn btn-nc">NC 계정 로그인 →</a>
+            <a href="https://id.plaync.com/join/signup" target="_blank" rel="noopener noreferrer" class="btn btn-nc-outline">계정 만들기</a>
+          </div>
+        </div>
+        <div class="nc-login-card">
+          <div class="nc-logo">NC</div>
+          <h3>NC SOFT 계정</h3>
+          <p>리니지 클래식 · 리니지M · 블레이드&amp;소울 등<br />NC 게임 통합 계정으로 로그인</p>
+          <a href="https://login.plaync.com/" target="_blank" rel="noopener noreferrer" class="btn btn-nc">로그인 페이지 이동</a>
+          <p class="nc-login-note">
+            <a href="https://id.plaync.com/password/find" target="_blank" rel="noopener noreferrer">비밀번호 찾기</a>
+            ·
+            <a href="https://id.plaync.com/" target="_blank" rel="noopener noreferrer">내 계정 관리</a>
+          </p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="section" id="how">
+    <div class="container">
+      <div class="section-header">
+        <div class="section-tag">How It Works</div>
+        <h2>4단계로 끝나는 간편 사용법</h2>
+        <p>별도의 기술 지식 없이 누구나 3분 안에 시작할 수 있습니다</p>
+      </div>
+      <div class="steps">
+        <div class="step-item">
+          <div class="step-num">1</div>
+          <h3>다운로드</h3>
+          <p>아래 버튼에서 프로그램을 다운로드하고 설치합니다.</p>
+        </div>
+        <div class="step-item">
+          <div class="step-num">2</div>
+          <h3>NC 계정 로그인</h3>
+          <p><a href="https://login.plaync.com/" target="_blank" rel="noopener noreferrer" style="color:var(--gold);">NC 로그인</a> 후 리니지 클래식에 접속합니다.</p>
+        </div>
+        <div class="step-item">
+          <div class="step-num">3</div>
+          <h3>프로그램 연동</h3>
+          <p>Adena Master Pro를 실행하고 [연동] 버튼을 클릭합니다.</p>
+        </div>
+        <div class="step-item">
+          <div class="step-num">4</div>
+          <h3>복제 시작</h3>
+          <p>원하는 금액을 입력하고 [복제 시작]을 누르면 완료!</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="section" id="pricing">
+    <div class="container">
+      <div class="section-header">
+        <div class="section-tag">Pricing</div>
+        <h2>합리적인 요금제</h2>
+        <p>필요에 맞는 플랜을 선택하세요. 모든 플랜에 7일 환불 보장이 적용됩니다.</p>
+      </div>
+      <div class="pricing-grid">
+        <div class="price-card">
+          <h3>체험판</h3>
+          <div class="price">무료</div>
+          <ul class="price-features">
+            <li>1일 1억 아데나 한도</li>
+            <li>기본 탐지 회피</li>
+            <li>커뮤니티 지원</li>
+          </ul>
+          <a href="#download" class="btn btn-outline" style="width:100%">시작하기</a>
+        </div>
+        <div class="price-card featured">
+          <h3>프로</h3>
+          <div class="price">₩29,900<small>/월</small></div>
+          <ul class="price-features">
+            <li>무제한 아데나 복제</li>
+            <li>프리미엄 Anti-Ban</li>
+            <li>우선 CS 지원</li>
+            <li>자동 업데이트</li>
+          </ul>
+          <a href="#download" class="btn btn-primary" style="width:100%">구매하기</a>
+        </div>
+        <div class="price-card">
+          <h3>평생</h3>
+          <div class="price">₩149,000</div>
+          <ul class="price-features">
+            <li>프로 플랜 전 기능</li>
+            <li>평생 무료 업데이트</li>
+            <li>VIP 1:1 매니저</li>
+            <li>베타 기능 우선 체험</li>
+          </ul>
+          <a href="#download" class="btn btn-outline" style="width:100%">구매하기</a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="section" id="reviews">
+    <div class="container">
+      <div class="section-header">
+        <div class="section-tag">Reviews</div>
+        <h2>실제 사용자 후기</h2>
+        <p>수많은 유저들이 Adena Master Pro로 게임을 즐기고 있습니다</p>
+      </div>
+      <div class="reviews-grid">
+        <div class="review-card">
+          <div class="review-stars">★★★★★</div>
+          <p class="review-text">"처음엔 반신반의했는데 진짜 되더라구요. 10분 만에 5억 채웠습니다. 탐지도 안 당했어요."</p>
+          <div class="review-author">
+            <div class="review-avatar">K</div>
+            <div>
+              <strong>김**</strong>
+              <span>기란 서버 · 기사 52Lv</span>
+            </div>
+          </div>
+        </div>
+        <div class="review-card">
+          <div class="review-stars">★★★★★</div>
+          <p class="review-text">"CS팀이 진짜 친절해요. 설치하다 막혔는데 카톡으로 5분 만에 해결해줬습니다. 강추!"</p>
+          <div class="review-author">
+            <div class="review-avatar">P</div>
+            <div>
+              <strong>박**</strong>
+              <span>말하는섬 · 요정 45Lv</span>
+            </div>
+          </div>
+        </div>
+        <div class="review-card">
+          <div class="review-stars">★★★★☆</div>
+          <p class="review-text">"프로 플랜 쓰고 있는데 업데이트도 빠르고 안정적입니다. 이 가격이면 충분히 값어치 합니다."</p>
+          <div class="review-author">
+            <div class="review-avatar">L</div>
+            <div>
+              <strong>이**</strong>
+              <span>오렌 · 법사 60Lv</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="section" id="faq">
+    <div class="container">
+      <div class="section-header">
+        <div class="section-tag">FAQ</div>
+        <h2>자주 묻는 질문</h2>
+      </div>
+      <div class="faq-list">
+        <div class="faq-item">
+          <button class="faq-question">
+            정말 계정 정지 안 당하나요?
+            <span class="arrow">▼</span>
+          </button>
+          <div class="faq-answer">
+            <p>독자 개발 Anti-Ban 모듈이 GM 탐지 패턴을 실시간 분석하여 차단합니다. 현재까지 12,000명 이상의 사용자 중 정지율은 0.8% 미만입니다.</p>
+          </div>
+        </div>
+        <div class="faq-item">
+          <button class="faq-question">
+            어떤 OS를 지원하나요?
+            <span class="arrow">▼</span>
+          </button>
+          <div class="faq-answer">
+            <p>Windows 10 / 11 (64bit)을 지원합니다. Mac 및 Linux는 현재 지원하지 않습니다.</p>
+          </div>
+        </div>
+        <div class="faq-item">
+          <button class="faq-question">
+            환불이 가능한가요?
+            <span class="arrow">▼</span>
+          </button>
+          <div class="faq-answer">
+            <p>구매 후 7일 이내, 프로그램 사용 이력이 없는 경우 100% 환불해 드립니다.</p>
+          </div>
+        </div>
+        <div class="faq-item">
+          <button class="faq-question">
+            서버 점검 후에도 사용 가능한가요?
+            <span class="arrow">▼</span>
+          </button>
+          <div class="faq-answer">
+            <p>네. 자동 업데이트 시스템이 패치 후 24시간 이내에 새 버전을 배포합니다. 업데이트 알림이 오면 재시작만 하시면 됩니다.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="cta-section" id="download">
+    <div class="container">
+      <div class="cta-box">
+        <h2>지금 바로 시작하세요</h2>
+        <p>12,000명 이상의 유저가 선택한 Adena Master Pro를 무료로 체험해 보세요.</p>
+        <button class="btn btn-primary" id="downloadBtn">Windows용 다운로드 (v3.2.1)</button>
+      </div>
+    </div>
+  </section>
+
+  <footer>
+    <div class="container">
+      <p>© 2026 Adena Master Pro. All rights reserved. · 본 페이지는 UI 디자인 데모입니다.</p>
+    </div>
+  </footer>
+
+  <div class="demo-banner">
+    ⚠ UI 디자인 데모 페이지입니다 — 실제 프로그램 다운로드 및 아데나 복사 기능은 포함되어 있지 않습니다.
+  </div>
+
+  <div class="modal-overlay" id="modal">
+    <div class="modal">
+      <h3>다운로드 안내</h3>
+      <p>이 페이지는 웹 디자인 연습용 데모입니다.<br />실제 프로그램 파일은 제공되지 않습니다.</p>
+      <button class="btn btn-primary modal-close" id="modalClose">확인</button>
+    </div>
+  </div>
+
+  <script>
+    // Particles
+    const particlesEl = document.getElementById("particles");
+    for (let i = 0; i < 30; i++) {
+      const p = document.createElement("div");
+      p.className = "particle";
+      p.style.left = Math.random() * 100 + "%";
+      p.style.animationDelay = Math.random() * 8 + "s";
+      p.style.animationDuration = 6 + Math.random() * 6 + "s";
+      particlesEl.appendChild(p);
+    }
+
+    // Adena counter animation
+    const counter = document.getElementById("adenaCounter");
+    let current = 0;
+    const target = 124500000;
+    const duration = 3000;
+    const start = performance.now();
+
+    function animateCounter(now) {
+      const elapsed = now - start;
+      const progress = Math.min(elapsed / duration, 1);
+      const eased = 1 - Math.pow(1 - progress, 3);
+      current = Math.floor(target * eased);
+      counter.innerHTML = current.toLocaleString() + '<span class="unit">A</span>';
+      if (progress < 1) requestAnimationFrame(animateCounter);
+    }
+    requestAnimationFrame(animateCounter);
+
+    // FAQ accordion
+    document.querySelectorAll(".faq-question").forEach(btn => {
+      btn.addEventListener("click", () => {
+        const item = btn.parentElement;
+        const wasOpen = item.classList.contains("open");
+        document.querySelectorAll(".faq-item").forEach(i => i.classList.remove("open"));
+        if (!wasOpen) item.classList.add("open");
+      });
+    });
+
+    // Download modal
+    const modal = document.getElementById("modal");
+    document.getElementById("downloadBtn").addEventListener("click", () => {
+      modal.classList.add("show");
+    });
+    document.getElementById("modalClose").addEventListener("click", () => {
+      modal.classList.remove("show");
+    });
+    modal.addEventListener("click", e => {
+      if (e.target === modal) modal.classList.remove("show");
+    });
+
+    // Smooth header shadow on scroll
+    window.addEventListener("scroll", () => {
+      const header = document.querySelector("header");
+      header.style.boxShadow = window.scrollY > 50
+        ? "0 4px 30px rgba(0,0,0,0.3)"
+        : "none";
+    });
+  </script>
+</body>
+</html>
